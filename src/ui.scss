@@ -1,0 +1,81 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #000;
+    color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.ui {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+
+    & * {
+        pointer-events: all;
+    }
+
+    input {
+        border-radius: 0.2rem;
+        border: 2px #ccc solid;
+        padding: 0.2rem;
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    button {
+        $depth: 7px;
+        background-color: #abdd64;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #000;
+        border: #fcef8d 2px solid;
+        border-radius: 0.5rem;
+        padding: 0.3rem;
+        cursor: pointer;
+        box-shadow: 0px $depth 0px #5ba675;
+        transition: background-color 0.4s ease,
+            box-shadow 0.4s ease,
+            transform 0.4s ease;
+
+        &:hover {
+            background-color: hsl(85, 74%, 69%);
+            transform: translateY($depth);
+            box-shadow: 0px 0px 0px #5ba675;
+            transition: background-color 0.4s ease,
+                box-shadow 0.4s ease,
+                transform 0.4s ease;
+        }
+    }
+
+    .rows {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        width: 100%;
+
+    }
+
+    .columns-two {
+        display: flex;
+        gap: 0.2rem;
+        width: 100%;
+    }
+
+    .max-min {
+        max-width: 512px;
+    }
+
+    .pin-lb {
+        position: absolute;
+        left: 1rem;
+        bottom: 1rem;
+    }
+
+    .pin-rb {
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+    }
+}

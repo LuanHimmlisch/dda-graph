@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>dda-graph</title>
+
+    <link rel="stylesheet" href="./src/ui.scss">
+</head>
+
+<body>
+    <canvas id="game"></canvas>
+    <div class="ui">
+        <form onsubmit="window.calculatePoint(event)" class="rows max-min pin-lb">
+            <div class="columns-two">
+                <input type="number" placeholder="X" id="input-x" autocomplete="off" required>
+                <input type="number" placeholder="Y" id="input-y" autocomplete="off" required>
+            </div>
+            <div class="columns-two">
+                <input type="number" placeholder="X2" id="input-x2" autocomplete="off" required>
+                <input type="number" placeholder="Y2" id="input-y2" autocomplete="off" required>
+            </div>
+            <button type="submit">
+                Calcular
+            </button>
+        </form>
+
+        <p class="pin-rb" id="coords-text"></p>
+    </div>
+    <script src="src/main.js" type="module"></script>
+</body>
+
+</html>
