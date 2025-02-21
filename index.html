@@ -25,6 +25,38 @@
         </form>
 
         <p class="pin-rb" id="coords-text"></p>
+
+        <div class="window"
+            x-data="{ open: true, data: [] }"
+            x-on:calculated.window="data = $event.detail"
+            :class="open ? 'window-open' : 'window-closed'"
+            x-show="data.length"
+            x-cloak>
+            <div class="window-header">
+                <span>Datos</span>
+            </div>
+            <button class="window-minimize" x-on:click="open = !open">
+                <span x-text="open ? '-' : '+'"></span>
+            </button>
+            <div class="window-content" x-show="open">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>X</th>
+                            <th>Y</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="row in data">
+                            <tr>
+                                <td x-tooltip.placement.left="row[0] + ''" x-text="row[0]"></td>
+                                <td x-tooltip.placement.left="row[1] + ''" x-text="row[1]"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <script src="src/main.js" type="module"></script>
 </body>

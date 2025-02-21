@@ -1,5 +1,10 @@
 import kaplay from "kaplay";
 import canAutoplay from 'can-autoplay';
+import Alpine from "alpinejs";
+import { makeDraggable } from "./draggable";
+import Tooltip from "@ryangjchandler/alpine-tooltip";
+
+Alpine.plugin(Tooltip);
 
 const k = kaplay({
     canvas: document.querySelector('#game')
@@ -89,40 +94,41 @@ const elTextCoords = document.querySelector('#coords-text');
 setBackground('#2a303c');
 
 function initPlane() {
-    const width = k.width();
+    const width = k.width() * 2;
+    const height = k.height() * 2;
 
     const vertical = k.add([
-        rect(3, k.height()),
-        pos(START_X, 0),
+        rect(3, height * 2),
+        pos(START_X - 2, -height / 2),
         color(71, 81, 102)
     ]);
 
     const horizontal = k.add([
-        rect(k.width(), 3),
-        pos(0, END_Y),
+        rect(width * 2, 3),
+        pos(0 - width - START_X / 2, END_Y - 2),
         color(71, 81, 102)
     ]);
 
-    let x = vertical.pos.x;
+    let x = vertical.pos.x - (Math.floor(width / 32) / 2 * 32);
 
     while (x < width) {
         x += 32;
 
         k.add([
-            rect(1, END_Y),
-            pos(x, 0),
+            rect(1, height * 2),
+            pos(x, -height / 2),
             color(53, 61, 76)
         ])
     }
 
-    let y = 0
+    let y = -height / 2
 
-    while (y < horizontal.pos.y) {
+    while (y < (height * 2)) {
         y += 32;
 
         k.add([
-            rect(k.width() - 126, 1),
-            pos(START_X, y),
+            rect(width * 2, 1),
+            pos(-width / 2, y),
             color(53, 61, 76)
         ])
     }
@@ -169,10 +175,11 @@ function planeToWorldY(planeY) {
 
 function getPlaneMousePos() {
     const mouse = mousePos();
+    const worldPos = toWorld(mouse);
 
     return {
-        x: Math.max(Math.round((mouse.x - START_X) / 32), 0),
-        y: Math.max(Math.round((END_Y - mouse.y) / 32), 0),
+        x: Math.round((worldPos.x - START_X) / 32),
+        y: Math.round((END_Y - worldPos.y) / 32),
     }
 }
 
@@ -212,6 +219,10 @@ function calculatePoint() {
     let iX = x;
     let iY = y;
 
+    const data = [
+        [iX, iY]
+    ];
+
     for (let i = 0; i < steps; i++) {
         iX += incrementX;
         iY += incrementY;
@@ -227,6 +238,7 @@ function calculatePoint() {
             planeToWorldY(iY) - (mark.height * mark.scale.y / 2),
         )
 
+        data.push([iX.toFixed(3) * 1, iY.toFixed(3) * 1]);
         interpolations.push(mark);
     }
 
@@ -244,6 +256,10 @@ function calculatePoint() {
     prev2 = bean2.pos.clone();
 
     k.shake(40)
+
+    window.dispatchEvent(new CustomEvent('calculated', {
+        detail: data
+    }));
 }
 
 window.calculatePoint = (e) => {
@@ -263,18 +279,44 @@ k.onMousePress((action) => {
     } else if (action === 'right') {
         elInputX2.value = mouse.x;
         elInputY2.value = mouse.y;
+    } else {
+        return;
     }
 
     calculatePoint();
 })
 
-k.onMouseMove((mouse) => {
+k.onScroll((delta) => {
+    const toVector = k.getCamScale().sub(
+        k.vec2(delta.y).scale(0.001)
+    );
+
+    toVector.x = Math.max(Math.min(toVector.x, 1.5), 0.5);
+    toVector.y = Math.max(Math.min(toVector.y, 1.5), 0.5);
+
+
+    k.setCamScale(toVector);
+})
+
+k.onKeyPress('space', () => {
+    k.setCamPos(k.center());
+    k.setCamScale(1);
+});
+
+k.onMouseMove((mouse, delta) => {
+    if (k.isMouseDown('middle')) {
+        k.setCamPos(
+            k.getCamPos().sub(delta)
+        );
+    }
+
     elTextCoords.textContent = `${mouse.x},${mouse.y}`;
 
-    mouseVertical.pos = new Vec2(mouse.x, mouse.y - mouseVertical.height / 2)
-    mouseHorizontal.pos = new Vec2(mouse.x - mouseHorizontal.width / 2, mouse.y)
+    const worldPos = toWorld(mouse);
 
-    // mouseHorizontal.draw()
+    mouseVertical.pos = new Vec2(worldPos.x, worldPos.y - mouseVertical.height / 2)
+    mouseHorizontal.pos = new Vec2(worldPos.x - mouseHorizontal.width / 2, worldPos.y)
+
 });
 
 let initialized = false;
@@ -292,3 +334,7 @@ canAutoplay.audio().then(({ result }) => result && checkInitialFocus());
 k.onClick(() => checkInitialFocus());
 
 initPlane();
+
+document.querySelectorAll('.window').forEach((v) => makeDraggable(v));
+
+Alpine.start();

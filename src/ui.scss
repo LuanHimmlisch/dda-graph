@@ -1,3 +1,9 @@
+@import 'tippy.js/dist/tippy.css';
+
+[x-cloak] {
+    display: none !important;
+}
+
 body {
     width: 100vw;
     height: 100vh;
@@ -78,4 +84,87 @@ body {
         right: 1rem;
         bottom: 1rem;
     }
+
+    .window {
+        position: absolute;
+        background-color: #20252e;
+        top: 5%;
+        left: calc(100% - 250px - 2rem);
+        color: #fff;
+        border-radius: 1rem;
+        box-shadow: 0 2px 5px rgba(#000000, 0.5);
+        max-width: 250px;
+        width: 100%;
+
+        &.window-closed {
+            overflow: hidden;
+        }
+
+        .window-minimize {
+            position: absolute;
+            top: -0.25rem;
+            right: 1rem;
+            padding: 0.25rem;
+            border: none;
+            background: none;
+            color: #fff;
+            font-size: 1.3rem;
+            margin: 0;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .window-header {
+            background-color: hsl(219, 18%, 10%);
+            padding: 0.4rem 0.5rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-align: center;
+            user-select: none;
+            cursor: move;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+
+        .window-content {
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+
+        table {
+            table-layout: fixed;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: #fff 1px solid;
+            padding: 0.2rem 0.75rem;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        th {
+            background-color: #2a303c;
+            user-select: none;
+        }
+
+        tr {
+            margin: 0;
+        }
+    }
+
+}
+
+.tippy-box {
+    background-color: #20252e;
+}
+
+.tippy-arrow {
+    color: #20252e;
 }
