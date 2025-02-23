@@ -1,6 +1,6 @@
-import kaplay from "kaplay";
 import { importAssets } from "./assets";
 
+/** @type {import("kaplay").KAPLAYCtx} */
 const k = kaplay({
     canvas: document.querySelector('#game')
 });
@@ -297,8 +297,8 @@ k.onMouseMove((mouse, delta) => {
 
     const worldPos = toWorld(mouse);
 
-    mouseVertical.pos = new Vec2(worldPos.x, worldPos.y - mouseVertical.height / 2)
-    mouseHorizontal.pos = new Vec2(worldPos.x - mouseHorizontal.width / 2, worldPos.y)
+    mouseVertical.pos = k.vec2(worldPos.x, worldPos.y - mouseVertical.height / 2)
+    mouseHorizontal.pos = k.vec2(worldPos.x - mouseHorizontal.width / 2, worldPos.y)
 
 });
 

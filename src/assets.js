@@ -12,6 +12,7 @@ import soundExplosion4 from './sounds/explosion-4.wav';
 /* Background */
 import musicBackground from './music/background.wav';
 
+/** @param {import('kaplay').KAPLAYCtx} k */
 function importAssets(k) {
     k.loadSprite("bean", spriteBean);
     k.loadSprite("mark", spriteMark);
