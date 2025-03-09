@@ -9,8 +9,10 @@
 	},
 	"dependencies": {
 		"@ryangjchandler/alpine-tooltip": "^2.0.1",
+		"alpinejs": "^3.14.8",
 		"can-autoplay": "^3.0.2",
-		"kaplay": "^3001.0.9"
+		"kaplay": "^3001.0.9",
+		"typescript": "^5.8.2"
 	},
 	"devDependencies": {
 		"@types/alpinejs": "^3.13.11",

@@ -30,6 +30,10 @@ body {
         width: 100%;
     }
 
+    p {
+        user-select: none;
+    }
+
     button {
         $depth: 7px;
         background-color: #abdd64;
@@ -159,6 +163,9 @@ body {
         }
     }
 
+    .text-right {
+        text-align: right;
+    }
 }
 
 .tippy-box {

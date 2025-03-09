@@ -15,13 +15,13 @@ export default defineConfig({
         imagetools({
             defaultDirectives: () => new URLSearchParams({
                 format: 'webp',
-                inline: true,
-                lossless: true
+                inline: 'true',
+                lossless: 'true'
             })
         }),
         createHtmlPlugin({ minify: true }),
         svgLoader({ defaultImport: 'url' }),
-        viteAudioTransform({ type: 'webm' }),
+        viteAudioTransform({ type: 'webm', quality: undefined }),
         viteSingleFile(),
     ],
 });

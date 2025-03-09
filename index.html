@@ -10,21 +10,34 @@
 <body>
     <canvas id="game"></canvas>
     <div class="ui">
-        <form onsubmit="window.calculatePoint(event)" class="rows max-min pin-lb">
-            <div class="columns-two">
-                <input type="number" placeholder="X" id="input-x" autocomplete="off" required>
-                <input type="number" placeholder="Y" id="input-y" autocomplete="off" required>
-            </div>
-            <div class="columns-two">
-                <input type="number" placeholder="X2" id="input-x2" autocomplete="off" required>
-                <input type="number" placeholder="Y2" id="input-y2" autocomplete="off" required>
-            </div>
+        <form onsubmit="window.calculatePoint(event)" class="rows max-min pin-lb"
+            x-data="{ count: 0 }"
+            x-on:algo.window="count = $event.detail.algo.beans">
+            <template x-for="i in count">
+                <div class="columns-two">
+                    <input type="number" placeholder="X" :id="`coord-x-${i - 1}`" autocomplete="off" required>
+                    <input type="number" placeholder="Y" :id="`coord-y-${i - 1}`" autocomplete="off" required>
+                </div>
+            </template>
             <button type="submit">
                 Calcular
             </button>
         </form>
 
-        <p class="pin-rb" id="coords-text"></p>
+        <div class="pin-rb text-right"
+            x-data="{ algorithm: 'line', algorithms: [] }"
+            x-init="$watch('algorithm', value => window.selectAlgorithm(value))"
+            x-on:algo.window="algorithm = $event.detail.name"
+            x-on:loaded.window="algorithms = window.algorithms">
+            <p><small>Algoritmo</small></p>
+            <select x-model="algorithm">
+                <template x-for="(item, key) in algorithms">
+                    <option :value="key" x-text="item.name"></option>
+                </template>
+            </select>
+            <p id="mouse-text"></p>
+
+        </div>
 
         <div class="window"
             x-data="{ open: true, data: [] }"
@@ -49,8 +62,8 @@
                     <tbody>
                         <template x-for="row in data">
                             <tr>
-                                <td x-tooltip.placement.left="row[0] + ''" x-text="row[0]"></td>
-                                <td x-tooltip.placement.left="row[1] + ''" x-text="row[1]"></td>
+                                <td x-tooltip.placement.left="row.x + ''" x-text="row.x"></td>
+                                <td x-tooltip.placement.left="row.y + ''" x-text="row.y"></td>
                             </tr>
                         </template>
                     </tbody>
