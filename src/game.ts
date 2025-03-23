@@ -296,8 +296,8 @@ k.onScroll((delta) => {
         k.vec2(delta.y).scale(0.001)
     );
 
-    toVector.x = Math.max(Math.min(toVector.x, 1.5), 0.5);
-    toVector.y = Math.max(Math.min(toVector.y, 1.5), 0.5);
+    toVector.x = Math.max(Math.min(toVector.x, 1.5), 0.2);
+    toVector.y = Math.max(Math.min(toVector.y, 1.5), 0.2);
 
 
     k.setCamScale(toVector);
