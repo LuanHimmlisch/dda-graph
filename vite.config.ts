@@ -1,9 +1,10 @@
 import { defineConfig } from "vite";
 import svgLoader from 'vite-svg-loader';
-import { viteSingleFile } from "vite-plugin-singlefile";
+import viteSingleFileCompression from "vite-plugin-singlefile-compression";
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { imagetools } from 'vite-imagetools'
 import viteAudioTransform from "vite-audio-transform";
+import viteDetectDuplicatedDeps from 'unplugin-detect-duplicated-deps/vite';
 
 export default defineConfig({
     base: "./",
@@ -39,6 +40,7 @@ export default defineConfig({
         createHtmlPlugin({ minify: true }),
         svgLoader({ defaultImport: 'url' }),
         viteAudioTransform({ type: 'webm', quality: 48 }),
-        viteSingleFile(),
+        viteDetectDuplicatedDeps(),
+        viteSingleFileCompression(),
     ],
 });
