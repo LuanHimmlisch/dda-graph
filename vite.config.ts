@@ -10,6 +10,23 @@ export default defineConfig({
     build: {
         assetsInlineLimit: 2.097152e+6, // 2mb
         chunkSizeWarningLimit: 10000, // 10mb
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                arguments: true,
+                booleans_as_integers: true,
+                hoist_funs: true,
+                hoist_vars: true,
+                keep_fargs: false,
+                passes: 3,
+            },
+            format: {
+                comments: false,
+            }
+        },
+        rollupOptions: {
+            treeshake: 'smallest',
+        }
     },
     plugins: [
         imagetools({
@@ -21,7 +38,7 @@ export default defineConfig({
         }),
         createHtmlPlugin({ minify: true }),
         svgLoader({ defaultImport: 'url' }),
-        viteAudioTransform({ type: 'webm', quality: undefined }),
+        viteAudioTransform({ type: 'webm', quality: 48 }),
         viteSingleFile(),
     ],
 });

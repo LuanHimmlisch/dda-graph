@@ -1,3 +1,7 @@
+// @ts-nocheck
+
+import type { KAPLAYCtx } from 'kaplay';
+
 /* Sprites */
 import spriteBean from './sprites/bean.png';
 import spriteMark from './sprites/mark.png';
@@ -12,8 +16,7 @@ import soundExplosion4 from './sounds/explosion-4.wav';
 /* Background */
 import musicBackground from './music/background.wav';
 
-/** @param {import('kaplay').KAPLAYCtx} k */
-function importAssets(k) {
+function importAssets(k: KAPLAYCtx) {
     k.loadSprite("bean", spriteBean);
     k.loadSprite("mark", spriteMark);
     k.loadSprite("sun", spriteSunO);

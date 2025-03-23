@@ -1,9 +1,9 @@
-import kaplay, { GameObj, OpacityComp, PosComp, Vec2 } from "kaplay";
+import type { GameObj, KAPLAYCtx, OpacityComp, PosComp, Vec2 } from "kaplay";
 import { importAssets } from "./assets";
 import algorithms from "./algorithms";
-import Alpine from "alpinejs";
+// import Alpine from "alpinejs";
 
-const k = kaplay({
+const k: KAPLAYCtx = kaplay({
     canvas: document.querySelector('#game')! as HTMLCanvasElement
 });
 
@@ -41,7 +41,7 @@ export function selectAlgorithm(name: string) {
 
     dispatch('algo', { algo: selectedAlgorithm, name });
 
-    Alpine.nextTick(() => {
+    window.Alpine.nextTick(() => {
         elInputs = [];
         document.querySelectorAll('input[id^=coord-]').forEach((v) => {
             const i = parseInt(v.id.slice(-1));
@@ -325,7 +325,8 @@ k.onMouseMove((mouse, delta) => {
 
 k.onLoad(() => {
     selectAlgorithm('line');
-    Alpine.nextTick(() => {
+
+    window.Alpine.nextTick(() => {
         dispatch('loaded')
     });
 })
