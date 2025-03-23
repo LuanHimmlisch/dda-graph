@@ -83,5 +83,43 @@ export default {
             return [];
         },
     },
+    circle: {
+        name: 'Círculo',
+        beans: 2,
+        calculate(points) {
+            const [vector1, vector2] = points;
+
+            clearBeans();
+            syncBeans();
+
+            const midX = vector1.x;
+            const midY = vector1.y;
+            const radius = Math.round(vector1.dist(vector2));
+
+            const radiusSqr = radius * radius;
+
+            for (let x = -radius; x < radius; x++) {
+                const hh = Math.round(
+                    Math.sqrt(radiusSqr - x * x)
+                );
+
+                const rx = midX + x;
+                const ph = midY + hh;
+
+                for (let y = midY - hh; y < ph; y++) {
+                    const mark = paintInterpolation();
+
+                    mark.pos = vec2(
+                        planeToWorldX(rx),
+                        planeToWorldY(y),
+                    );
+
+                }
+            }
+
+
+            return [];
+        },
+    }
 
 } as Algorithms
